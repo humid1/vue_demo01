@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .tab ul{
+            height: 45px;
+            padding: 0;
+            margin: 0;
+        }
+        .tab ul li {
+            box-sizing: border-box;
+            padding: 0;
+            float: left;
+            width: 100px;
+            height: 45px;
+            line-height: 45px;
+            list-style: none;
+            text-align: center;
+            border-top: 1px solid blue;
+            border-right: 1px solid blue;
+            cursor: pointer;
+        }
+        .tab ul li:first-child{
+            border-left: 1px solid blue;
+        }
+        .tab ul li.active {
+            background-color: orange;
+        }
+        .tab div{
+            width: 500px;
+            height: 500px;
+            display: none;
+            text-align: center;
+            font-size: 30px;
+            line-height: 300px;
+            border: 1px solid blue;
+            border-top: 0px;
+        }
+        .tab div.current{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="tab">
+        <ul>
+            <li @click="change(index)" :class="currentIndex==index?'active':''" v-for='(item,index) in objArr' v-text='item.title' :key='item.id'></li>
+        </ul>
+        <div :class="currentIndex==index?'current':''" v-for='(item,index) in objArr' :key='item.id'>
+            <img :src="item.url" width="500px">
+        </div>
+    </div>
+</div>    
+
+<script src="./js/vue.js"></script>
+<script type="text/javascript">
+    
+    var vm = new Vue({
+        el: "#app",   // 元素挂载位置（值可以是css选择器或者DOM元素）
+        data: {       // 模型数据（值是一个对象）
+            currentIndex: 0,
+            objArr: [
+                {
+                    id: 1,
+                    title: 'img1',
+                    url: 'img/img1.jpg'
+                },
+                {
+                    id: 2,
+                    title: 'img2',
+                    url: 'img/img2.jpg'
+                },
+                {
+                    id: 3,
+                    title: 'img3',
+                    url: 'img/img3.jpg'
+                }
+            ]
+        
+        },
+        methods: {
+            change(index){
+                // 在这里实现选项卡操作，本质就是操作类
+                this.currentIndex = index;
+            }
+        },
+    })
+</script>
+</body>
+</html>

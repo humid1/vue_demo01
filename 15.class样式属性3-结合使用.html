@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active {
+            border: 1px solid red;
+            width: 100px;
+            height: 100px;
+        }
+        .error {
+            background-color: aqua;
+        }
+        .test{
+            font-size: 26px;
+        }
+        .base {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="handle">切换</button>
+    <div :class="[activeClass, errorClass, {test: isTest}]">测试</div>
+    <div :class="arrClasses"></div>
+    <div :class="objClasses"></div>
+    <div class="base" :class="objClasses">测试样式（默认样式会保留）</div>
+</div>    
+
+<script src="./js/vue.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",   // 元素挂载位置（值可以是css选择器或者DOM元素）
+        data: {       // 模型数据（值是一个对象）
+            activeClass: "active",
+            errorClass: "error",
+            isTest: true,
+            arrClasses: ["active","error"],
+            objClasses: {
+                active: true,
+                error: true
+            }
+        },
+        methods: {
+            handle(event){
+                // 控制isActive的值在true和false之间进行切换
+                // this.isTest = false;
+                // this.objClasses.error = false;
+            }
+        },
+    })
+</script>
+</body>
+</html>

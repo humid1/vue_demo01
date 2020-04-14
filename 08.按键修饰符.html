@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <form action="">
+        <div>用户名：<input type="text" @keyup.delete="clearContent" v-model="uname"/></div>
+        <div>密  码：<input type="text" @keyup.enter="handleSubmit" v-model="password"/></div>
+        <div><input type="button" @click="handleSubmit" value="提交"/></div>
+    </form>
+
+</div>    
+
+<script src="./js/vue.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",   // 元素挂载位置（值可以是css选择器或者DOM元素）
+        data: {       // 模型数据（值是一个对象）
+            uname: null,
+            password: null
+        },
+        methods: {
+            handleSubmit(){ // ES6语法
+                if(this.uname != null && this.password != null){
+                    console.log(this.uname, this.password);
+                }
+            },
+            clearContent(){
+                this.uname = "";
+            }
+        },
+    })
+</script>
+</body>
+</html>

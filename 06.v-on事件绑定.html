@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <p v-text="num"></p>
+    <button type="button" v-on:click="num++">点击+1</button>
+    <!-- 直接绑定函数名称 -->
+    <button type="button" @click="add">点击+1</button>
+    <!-- 调用函数 -->
+    <button type="button" @click="add()">点击+1</button>
+</div>    
+
+<script src="./js/vue.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",   // 元素挂载位置（值可以是css选择器或者DOM元素）
+        data: {       // 模型数据（值是一个对象）
+            msg: "hello world",
+            num: 0
+        },
+        methods: {
+            add2: function(){},
+            add(){ // ES6语法
+                // 这里的this是vue的实例对象
+                console.log(vm === this);
+                this.num++;
+            }
+        },
+    })
+</script>
+</body>
+</html>
