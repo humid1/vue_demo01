@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <form action="">
+            <div class="p15">
+                <input type="text" v-focus>    
+            </div>
+        </form>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        // 自定义指令操作
+        Vue.directive('focus', {
+            inserted(el){
+                // el表示指令所绑定的元素（获取元素焦点）
+                el.focus();
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                uname: 0,
+                uname2: '',
+                uname3: '',
+            },
+            methods: {
+                handle(){
+                    // console.log(this.uname + 13);
+                    console.log(this.uname2);
+                }
+            },
+        });
+    </script>
+</body>
+</html>

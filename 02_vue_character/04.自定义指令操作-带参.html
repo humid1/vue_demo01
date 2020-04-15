@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <form action="">
+            <div class="p15">
+                <input type="text" v-color='msg'>    
+            </div>
+        </form>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        // 自定义指令操作
+        Vue.directive('color', {
+            bind: function(el, binding){
+                // 根据指令的参数设置背景色
+                // console.log(binding.value.color);
+                el.style.background = binding.value.color;
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: {
+                    color: 'red'
+                },
+            },
+            methods: {
+                handle(){
+                    // console.log(this.uname + 13);
+                    console.log(this.uname2);
+                }
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p>{{ msg }}</p>
+        <p>{{ msg.split('').reverse().join('') }}</p>
+        <p>{{ reverseString }}</p>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'hello'
+            },
+            computed: {
+                reverseString(){
+                    return this.msg.split('').reverse().join('');
+                }
+            },
+        });
+    </script>
+</body>
+</html>

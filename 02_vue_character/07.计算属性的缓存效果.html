@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用计算属性只会调用一次，有缓存效果 -->
+        <p>{{ reverseString }}</p>
+        <p>{{ reverseString }}</p>
+
+        <p>{{ reverseMethod() }}</p>
+        <p>{{ reverseMethod() }}</p>
+
+        <p>{{ total }}</p>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'hello',
+                num: 0
+            },
+            methods: {
+                reverseMethod() {
+                    console.log('方法调用了');
+                    return this.msg.split('').reverse().join('');
+                }
+            },
+            computed: {
+                reverseString: function(){
+                    console.log('计算属性调用了')
+                    return this.msg.split('').reverse().join('');
+                },
+                total: function(){
+                   for(var i = 0;i < 100;i++){
+                        this.num += i;
+                   } 
+                   return this.num;
+                }
+            },
+        });
+    </script>
+</body>
+</html>

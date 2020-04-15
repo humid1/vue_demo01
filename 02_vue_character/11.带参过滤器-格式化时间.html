@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>{{ date }}</div>
+        <div>{{ date | format("yyyy-MM-dd hh:mm:ss") }}</div>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        // 带参过滤器 (格式化时间)
+        Vue.filter('format',function(date, fmt){
+            function padLeftZero(str) {
+                return ('00' + str).substr(str.length);
+            }
+            if (/(y+)/.test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+            }
+            let o = {
+                'M+': date.getMonth() + 1,
+                'd+': date.getDate(),
+                'h+': date.getHours(),
+                'm+': date.getMinutes(),
+                's+': date.getSeconds()
+            };
+            for (let k in o) {
+                if (new RegExp(`(${k})`).test(fmt)) {
+                let str = o[k] + '';
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+                }
+            }
+            return fmt;
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                date: new Date()
+            },
+            filters: {
+                upper: function(val){
+                    return val.charAt(0).toUpperCase() + val.slice(1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

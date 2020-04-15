@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <label for="uname">用户名</label>
+        <input type="text" id="uname" v-model.lazy="uname">&nbsp;&nbsp;<span>{{ tips }}</span>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        /*
+        1. 采用监听器方式监听用户名的变化
+        2. 调用后台接口进行验证
+        3. 根据验证的结果调整提示信息
+        */
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                uname: '',   // 用户名
+                tips: ''      // 提示信息 
+            },
+            methods: {
+                checkName(uname){
+                    // 调用接口，使用定时任务的方式模拟接口调用
+                    var that = this;
+                    setTimeout(function(){
+                        // 模拟接口调用
+                        if(that.uname == 'admin'){
+                            that.tips = '用户名已经存在';
+                        } else {
+                            that.tips = '用户名可以使用';
+                        }
+                    },2000);
+                }
+            },
+            watch: {
+                uname: function(new_val){
+                    // 调用后台接口验证用户名的合法性
+                    this.checkName(new_val);
+                    // 修改提示信息
+                    this.tips = '正在验证...';
+                }
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用计算属性只会调用一次，有缓存效果 -->
+        <div>
+            <h3>监听方式 watch</h3>
+            <div><input type="text" v-model="firstName"></div>
+            <div><input type="text" v-model="lastName"></div>
+            <div>全名：{{ fullName }}</div>
+        </div>
+        <hr>
+        <div>
+            <h3>计算方式 computed</h3>
+            <div>全名：{{ fullName2 }}</div>
+        </div>
+
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                firstName: 'JACK',
+                lastName: 'Green',
+                fullName: 'JACK Green',
+            },
+            methods: {
+                
+            },
+            computed: {
+                fullName2: function(){
+                    return this.firstName + ' ' + this.lastName;
+                }
+            },
+            watch: {
+                firstName: function(){
+                    this.fullName = this.firstName + ' ' + this.lastName;
+                },
+                lastName: function(){
+                    this.fullName = this.firstName + ' ' + this.lastName;
+                }
+            },
+        });
+    </script>
+</body>
+</html>

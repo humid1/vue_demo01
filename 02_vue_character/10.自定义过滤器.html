@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <label for="uname">用户名</label>
+        <input type="text" id="uname" v-model="msg">
+        <div>{{ msg | upper }}</div>
+        <!-- 级联用法 -->
+        <div>{{ msg | upper | lower}}</div>
+        <!-- 绑定数据用法 -->
+        <div :id="id | upper">测试数据</div>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        // 过滤器 (首字母大写)
+        // Vue.filter('upper',function(val){
+        //     return val.charAt(0).toUpperCase() + val.slice(1);
+        // });
+        // 首字母小写
+        Vue.filter('lower',function(val){
+            return val.charAt(0).toLowerCase() + val.slice(1);
+        });
+
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '',
+                id: 'test'
+            },
+            filters: {
+                upper: function(val){
+                    return val.charAt(0).toUpperCase() + val.slice(1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
