@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="fname">
+        <input type="button" value="添加" @click="add">
+        <input type="button" value="删除" @click="del">
+        <input type="button" value="替换" @click="change">
+        <ul>
+            <li v-for="(item,index) in list" v-text="item" :key="index"></li>
+        </ul>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list: ['orange','apple','banana'],
+                fname: ''
+            },
+            methods: {
+                add(){
+                    this.list.push(this.fname);
+                },
+                del(){
+                    this.list.pop();
+                },
+                change(){
+                    // 截取第1个数据开始的2条数据，并替换原 list
+                    this.list = this.list.slice(0,2);
+                }
+            },
+        });
+    </script>
+</body>
+</html>

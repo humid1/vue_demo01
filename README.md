@@ -5,4 +5,7 @@
 
 # 02_vue_character vue常用特性
 1. 表单操作
-2. 
+2. 一些vue常用属性 watch computed 
+3. 过滤器（filter） 和 自定义指令
+4. vue生命周期  vue的数组操作
+5. 案例-图书管理列表

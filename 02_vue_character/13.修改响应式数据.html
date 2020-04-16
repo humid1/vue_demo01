@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(item,index) in list" v-text="item" :key="index"></li>
+        </ul>
+        <ol>
+            <li v-text="list2.name"></li>
+            <li v-text="list2.age"></li>
+            <li v-text="list2.gender"></li>
+        </ol>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        /*
+        动态处理响应式数据
+        */
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list: ['orange','apple','banana'],
+                list2: {
+                    name: '姓名',
+                    age: 13
+                }
+            },
+            methods: {
+                
+            },
+        });
+        // vm.list[1] = 'lemon'; // 这种方式不修改响应式数据
+        // Vue.set(vm.list, 1, 'lemon');
+        vm.$set(vm.list, 1, 'lemon');
+
+        // vm.list2.gender = 'male'; // 这种方式不修改响应式数据,修改无效
+        vm.$set(vm.list2, 'gender', 'male')
+
+    </script>
+</body>
+</html>
