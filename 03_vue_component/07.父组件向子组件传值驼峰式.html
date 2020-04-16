@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 父组件向子组件传值，以属性的方式传值 -->
+        <test-t1 :my-title="titleMsg" content="这是内容信息"></test-t1>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 局部组件注册
+        // 局部组件只能在注册的父组件中使用
+        var test1 = {
+            data(){
+                return {
+                    msg: 'test1组件'
+                }
+            },
+            props: ['myTitle','content'],
+            template: `<div>{{ myTitle + '-----' + content }}</div>`
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                titleMsg: '父组件的信息'
+            },
+            components: {
+                'test-t1': test1
+            }
+        })
+    </script>
+</body>
+</html>

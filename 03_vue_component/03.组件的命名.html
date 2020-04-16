@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button-counter></button-counter>
+        <!-- 在html页面必须使用 横线 的方式进行使用 -->
+        <my-component></my-component>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 驼峰命名方式
+        Vue.component('MyComponent',{
+            data() {
+                return {
+                    msg: 'hello'
+                }
+            },
+            template: `<div>{{ msg }}</div>`
+        });
+        // 横线命名方式
+        Vue.component('button-counter',{
+            data() {
+                return {
+                    count: 0
+                }
+            },
+            methods: {
+                add(){
+                    this.count += 2;
+                }
+            },
+            // 需要包含一个根元素
+            // template: '<div>'+
+            //     '<button @click="count++">点击了 {{ count }} 次</button>'+
+            //     '<button @click="add">点击了 {{ count }} 次</button>'+
+            //     '</div>'
+            // 组件内部可以使用驼峰命名方式的标签
+            template: `
+                <div>
+                    <button @click="count++">点击了 {{ count }} 次</button>
+                    <button @click="add">点击了 {{ count }} 次</button>
+                    <MyComponent></MyComponent>
+                </div>
+            `
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                
+            }
+        })
+    </script>
+</body>
+</html>

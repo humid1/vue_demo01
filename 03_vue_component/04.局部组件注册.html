@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button-counter></button-counter>
+        <test-t1></test-t1>
+        <test-t2></test-t2>
+        <test-t3></test-t3>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 局部组件注册
+        // 局部组件只能在注册的父组件中使用
+        var test1 = {
+            data(){
+                return {
+                    msg: 'test1组件'
+                }
+            },
+            template: '<div>{{ msg }}</div>'
+        }
+        var test2 = {
+            data(){
+                return {
+                    msg: 'test2组件'
+                }
+            },
+            template: '<div>{{ msg }}</div>'
+        }
+        var test3 = {
+            data(){
+                return {
+                    msg: 'test3组件'
+                }
+            },
+            template: '<div>{{ msg }}</div>'
+        }
+
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                
+            },
+            components: {
+                'test-t1': test1,
+                'test-t2': test2,
+                'test-t3': test3
+            }
+        })
+    </script>
+</body>
+</html>

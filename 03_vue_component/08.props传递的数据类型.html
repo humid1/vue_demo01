@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div :style="{fontSize: fontSize + 'px'}">{{ msg }}</div>
+        <test-t1 content="12" @enlarge-text="handle"></test-t1>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 局部组件注册
+        // 局部组件只能在注册的父组件中使用
+        var test1 = {
+            data(){
+                return {
+                    msg: 'test1组件'
+                }
+            },
+            props: ['content'],
+            template: `
+                <div>
+                    <div>{{ content }}</div>
+                    <button @click="$emit('enlarge-text')">放大父组件的字体</button>
+                </div>
+            `
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '这是放大的内容信息',
+                fontSize: 10
+            },
+            methods: {
+                handle(){
+                    this.fontSize += 5;
+                }
+            },
+            components: {
+                'test-t1': test1
+            }
+        })
+    </script>
+</body>
+</html>
