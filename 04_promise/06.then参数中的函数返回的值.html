@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+         function queryData(url){
+            var p = new Promise(function(reslove, reject){
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState != 4){
+                        return;
+                    }
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        // 处理正常情况
+                        reslove(xhr.responseText);
+                    } else {
+                        // 处理异常情况
+                        reject('服务器异常！');
+                    }
+                };
+                xhr.open('get',url);
+                xhr.send('success');
+            });
+            return p;
+        }
+        // 发送多个ajax请求并且保证顺序
+        queryData("http://127.0.0.1:3000/getData")
+            .then(function(data){
+                console.log(data);
+                return new Promise((reslove, reject) => { // 返回Promise实例对象
+                    setTimeout(()=>{
+                        reslove(123);
+                    },1000)
+                });
+            }).then(function(data){
+                console.log(data); // 输入123
+                return 'msg';      // 返回普通值
+            }).then(function(data){
+                console.log(data); // 输出msg
+            });       
+    </script>
+</body>
+</html>

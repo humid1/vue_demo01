@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script type="text/javascript">
+        function queryData(url){
+            var p = new Promise(function(reslove, reject){
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState != 4){
+                        return;
+                    }
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        // 处理正常情况
+                        reslove(xhr.responseText);
+                    } else {
+                        // 处理异常情况
+                        reject('服务器异常！');
+                    }
+                };
+                xhr.open('get',url);
+                xhr.send('success');
+            });
+            return p;
+        }
+        queryData("./json/data.json")
+            .then(function(data){
+                console.log(data);
+            },function(info){
+                console.log(info);
+            });
+    </script>
+</body>
+</html>

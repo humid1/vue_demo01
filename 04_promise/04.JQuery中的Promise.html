@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <input type="button" value="点击按钮" id="btn">
+
+    <script src="./js/jquery/dist/jquery.js"></script>
+    <script>
+        $(function () {
+            $('#btn').on('click',function(){
+                $.ajax({
+                    url: './json/data.json',
+                    type: 'get',
+                    dataType: 'json',
+                    // success: function(data){
+                    //     console.log(data);
+                    // }
+                }).then(function(data){
+                    console.log(data);
+                },function(err) {
+                    console.log('接口异常！');
+                })
+            })
+        })
+    </script>
+</body>
+</html>

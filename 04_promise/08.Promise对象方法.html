@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+         function queryData(url){
+            var p = new Promise(function(reslove, reject){
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState != 4){
+                        return;
+                    }
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        // 处理正常情况
+                        reslove(xhr.responseText);
+                    } else {
+                        // 处理异常情况
+                        reject('服务器异常！');
+                    }
+                };
+                xhr.open('get',url);
+                xhr.send('success');
+            });
+            return p;
+        }
+        var p1 = queryData('http://localhost:3000/getData');
+        var p2 = queryData('http://localhost:3000/getData2');
+        var p3 = queryData('http://localhost:3000/getData3');
+
+        // 并发处理多个异步任务，所有任务都执行完成才能得到结果
+        // Promise.all([p1,p2,p3]).then((result) => {
+        //     console.log(result);
+        // })
+        // 并发处理多个异步任务，只要有一个任务完成就能得到结果
+        Promise.race([p1,p2,p3]).then((result) => {
+            console.log(result);
+        })
+
+    </script>
+</body>
+</html>
