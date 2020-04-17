@@ -8,7 +8,7 @@
 <body>
     <div id="app">
         <div :style="{fontSize: fontSize + 'px'}">{{ msg }}</div>
-        <test-t1 content="12" :content1="12" :content2="true" :content3="content3" :content4="content4"></test-t1>
+        <test-t1 content="12" @enlarge-text="handle"></test-t1>
     </div>
     <script src="./js/vue.js"></script>
     <script>
@@ -20,14 +20,11 @@
                     msg: 'test1组件'
                 }
             },
-            props: ['content','content1','content2','content3','content4'],
+            props: ['content'],
             template: `
                 <div>
-                    <div>{{typeof content }}</div>
-                    <div>{{typeof content1 }}</div>
-                    <div>{{typeof content2 }}</div>
-                    <div v-for="(item,index) in content3" :key="index">{{ item }}</div>
-                    <div v-for="item in content4">{{ item }}</div>
+                    <div>{{ content }}</div>
+                    <button @click="$emit('enlarge-text')">放大父组件的字体</button>
                 </div>
             `
         }
@@ -35,10 +32,12 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                content3: ['1','2','3'],
-                content4: {
-                    name: '姓名',
-                    age: 13
+                msg: '这是放大的内容信息',
+                fontSize: 10
+            },
+            methods: {
+                handle(){
+                    this.fontSize += 5;
                 }
             },
             components: {

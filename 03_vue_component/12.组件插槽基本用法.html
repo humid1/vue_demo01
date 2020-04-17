@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <test-add>这是slot插槽的信息</test-add>
+        <test-add></test-add>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+    
+        Vue.component('test-add',{
+            data(){
+                return {
+                    num: 0
+                }
+            },
+            methods: {
+                handle(){
+                    
+                }
+            },
+            template: `
+                <div>
+                    <strong>Error: </strong>
+                    <slot>默认内容</slot>
+                </div>
+            `
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '这是放大的内容信息',
+                fontSize: 10
+            },
+            methods: {
+                handle(){
+                    
+                }
+            },
+        })
+    </script>
+</body>
+</html>

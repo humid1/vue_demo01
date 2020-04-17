@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="handle">销毁事件</button>
+        <test-add></test-add>
+        <test-add2></test-add2>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 事件中心
+        var hub = new Vue();
+
+        Vue.component('test-add',{
+            data(){
+                return {
+                    num: 0
+                }
+            },
+            methods: {
+                handle(){
+                    // 触发兄弟组件的事件
+                    hub.$emit('test2-event',2);
+                }
+            },
+            mounted() {
+                // 监听事件
+                hub.$on('test1-event',(val) => {
+                    this.num += val
+                })
+            },
+            template: `
+                <div>
+                    <div>test1：{{ num }}</div>
+                    <button @click="handle">点击事件1</button>
+                </div>
+            `
+        });
+        Vue.component('test-add2',{
+            data(){
+                return {
+                    num: 0
+                }
+            },
+            methods: {
+                handle(){
+                    // 触发兄弟组件的事件
+                    hub.$emit('test1-event',1);
+                }
+            },
+            mounted() {
+                // 监听事件
+                hub.$on('test2-event',(val) => {
+                    this.num += val
+                })
+            },
+            template: `
+                <div>
+                    <div>test2：{{ num }}</div>
+                    <button @click="handle">点击事件2</button>
+                </div>
+            `
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '这是放大的内容信息',
+                fontSize: 10
+            },
+            methods: {
+                handle(){
+                    // 销毁事件
+                    hub.$off('test1-event');
+                    hub.$off('test2-event');
+                }
+            },
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 400px;
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+            border: 1px solid #cccccc;
+        }
+        .title{
+            height: 50px;
+            background-color: paleturquoise;
+            width: 100%;
+            line-height: 50px;
+            text-align: center;
+        }
+        .footer{
+            height: 50px;
+            background-color: greenyellow;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            text-align: right;
+            line-height: 40px;
+        }
+        .footer span {
+            margin-right: 30px;
+        }
+        .goods{
+            height: 100px;
+            display: flex;
+            border: 1px solid #dddddd;
+            margin: 10px;
+            text-shadow: 2px 3px 8px lavenderblush;
+        }
+        .goods .goodsImg{
+            margin-top: 25px;
+            margin-left: 25px;
+        }
+        .goods .content{
+            line-height: 60px;
+            margin-left: 5px;
+        }
+        .goods .operation{
+            margin-left: 40px;
+            line-height: 90px;
+        }
+        .goods .operation input{
+            width: 50px;
+        }
+        .goods .remove{
+            font-size: 30px;
+            margin-left: 40px;
+            line-height: 90px;
+        }
+        .goods .remove a{
+            color: red;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <title-info :uname='user'></title-info>
+            <goods-info :list='list' 
+                @remove-list="remove($event)"
+                @add-list="add($event)"
+                @minue-list="minue($event)"
+                @getnum-list="getNum($event)"></goods-info>
+            <total-footer :list='list'></total-footer>
+        </div>
+    </div>
+    <!-- 模板放在vm控制的实例外 -->
+    <template id="titleInfo">
+        <div class="title">{{ uname }} 的购物车信息</div>
+    </template>
+    <template id="goodsInfo">
+        <div>
+            <div class="goods" v-for="(item,index) in list" :key="item.id">
+                <div class="goodsImg">
+                    <img :src="item.imgUrl" width="50px" height="50px">
+                </div>
+                <div class="content">
+                    <p>{{ item.name }}</p>
+                </div>
+                <div class="operation">
+                    <button @click="minue(item.id)">-</button>
+                    <input type="number" min="1" :value="item.num" @blur="getNum(item.id,$event)">
+                    <button @click="add(item.id)">+</button>
+                </div>
+                <div class="remove">
+                    <a href="#" @click.prevent="remove(item.id)">x</a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="totalFooter">
+        <div class="footer">
+            <span>合计金额：<b v-text="total"></b></span>
+        </div>
+    </template>
+    <script src="./js/vue.js"></script>
+    <script>
+        var titleInfo = {
+            props: ['uname'],
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                
+            },
+            template: '#titleInfo'
+        }
+        var goodsInfo = {
+            props: ['list'],
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                remove(id){
+                    this.$emit('remove-list',id);
+                },
+                add(id){
+                    this.$emit('add-list',id);
+                },
+                minue(id){
+                    this.$emit('minue-list',id);
+                },
+                getNum(id,event){
+                    this.$emit('getnum-list',{
+                        id: id,
+                        num: event.target.value
+                    });
+                }
+            },
+            template: '#goodsInfo'
+        }
+        var totalFooter = {
+            props: ['list'],
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                
+            },
+            computed: {
+                total(){
+                    var total = 0;
+                    this.list.forEach(item => {
+                        total += item.price * item.num;
+                    });
+                    return total;
+                }
+            },
+            template: '#totalFooter'
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                user: 'userName',
+                list:[{
+                    id: 1,
+                    name: '商品1',
+                    num: 1,
+                    price: 300,
+                    imgUrl: './img/timg.jpg'
+                },{
+                    id: 2,
+                    name: '商品2',
+                    price: 500,
+                    num: 2,
+                    imgUrl: './img/timg.jpg'
+                },{
+                    id: 3,
+                    name: '商品3',
+                    price: 1000,
+                    num: 5,
+                    imgUrl: './img/timg.jpg'
+                }]
+            },
+            methods: {
+                remove(id){ // 移除某项列 (直接传递索引值也可以)
+                    // 查找index索引值
+                    var index = this.list.findIndex(item => {
+                        return item.id == id;
+                    })
+                    // 移除索引为index的1个元素
+                    this.list.splice(index,1);
+                },
+                add(id){
+                    this.list.some(item => {
+                        if(item.id == id){
+                            item.num += 1;
+                            return true;
+                        }
+                    })
+                },
+                minue(id){
+                    this.list.some(item => {
+                        if(item.id == id){
+                            item.num -= 1;
+                            return true;
+                        }
+                    })
+                },
+                getNum(e){
+                    this.list.some(item => {
+                        if(item.id == e.id){
+                            item.num = e.num;
+                            return true;
+                        }
+                    })
+                }
+            },
+            components: {
+                titleInfo,
+                goodsInfo,
+                totalFooter
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 400px;
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+            border: 1px solid #cccccc;
+        }
+        .title{
+            height: 50px;
+            background-color: paleturquoise;
+            width: 100%;
+            line-height: 50px;
+            text-align: center;
+        }
+        
+        .footer{
+            height: 50px;
+            background-color: greenyellow;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            text-align: right;
+            line-height: 40px;
+        }
+        .footer span {
+            margin-right: 30px;
+        }
+        .goods{
+            height: 100px;
+            display: flex;
+            border: 1px solid #dddddd;
+            margin: 10px;
+            text-shadow: 2px 3px 8px lavenderblush;
+        }
+        .goods .goodsImg{
+            margin-top: 25px;
+            margin-left: 25px;
+        }
+        .goods .content{
+            margin-left: 5px;
+            width: 25%;
+            margin-top: 30px;
+        }
+        .goods .content p{
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .goods .content .price{
+            color: red;
+        }
+
+        .goods .operation{
+            margin-left: 20px;
+            line-height: 90px;
+        }
+        .goods .operation input{
+            width: 50px;
+        }
+        .goods .remove{
+            font-size: 30px;
+            margin-left: 40px;
+            line-height: 90px;
+        }
+        .goods .remove a{
+            color: red;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <title-info :uname='user'></title-info>
+            <goods-info :list='list' 
+                @operation="operation($event)"></goods-info>
+            <total-footer :list='list'></total-footer>
+        </div>
+    </div>
+    <!-- 模板放在vm控制的实例外 -->
+    <template id="titleInfo">
+        <div class="title">{{ uname }} 的购物车信息</div>
+    </template>
+    <template id="goodsInfo">
+        <div>
+            <div class="goods" v-for="(item,index) in list" :key="item.id">
+                <div class="goodsImg">
+                    <img :src="item.imgUrl" width="50px" height="50px">
+                </div>
+                <div class="content">
+                    <p class="name">{{ item.name }}</p>
+                    <p class="price">单价：￥{{ item.price }}</p>
+                </div>
+                <div class="operation">
+                    <button @click="minue(item.id)">-</button>
+                    <input type="number" min="1" :value="item.num" @blur="getNum(item.id,$event)">
+                    <button @click="add(item.id)">+</button>
+                </div>
+                <div class="remove">
+                    <a href="#" @click.prevent="remove(item.id)">x</a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="totalFooter">
+        <div class="footer">
+            <span>合计金额：<b v-text="total"></b></span>
+        </div>
+    </template>
+    <script src="./js/vue.js"></script>
+    <script>
+        var titleInfo = {
+            props: ['uname'],
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                
+            },
+            template: '#titleInfo'
+        }
+        var goodsInfo = {
+            props: ['list'],
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                remove(id){
+                    this.$emit('operation',{
+                        id: id,
+                        type: 'remove'
+                        });
+                },
+                add(id){
+                    this.$emit('operation',{
+                        id: id,
+                        type: 'add'
+                        });
+                },
+                minue(id){
+                    this.$emit('operation',{
+                        id: id,
+                        type: 'minue'
+                        });
+                },
+                getNum(id,event){
+                    this.$emit('operation',{
+                        id: id,
+                        num: event.target.value,
+                        type: 'getnum'
+                    });
+                }
+            },
+            template: '#goodsInfo'
+        }
+        var totalFooter = {
+            props: ['list'],
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                
+            },
+            computed: {
+                total(){
+                    var total = 0;
+                    this.list.forEach(item => {
+                        total += item.price * item.num;
+                    });
+                    return total;
+                }
+            },
+            template: '#totalFooter'
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                user: 'userName',
+                list:[{
+                    id: 1,
+                    name: '商品1',
+                    num: 1,
+                    price: 300,
+                    imgUrl: './img/timg.jpg'
+                },{
+                    id: 2,
+                    name: '商品2',
+                    price: 500,
+                    num: 2,
+                    imgUrl: './img/timg.jpg'
+                },{
+                    id: 3,
+                    name: '商品3',
+                    price: 1000,
+                    num: 5,
+                    imgUrl: './img/timg.jpg'
+                }]
+            },
+            methods: {
+                operation(obj){
+                    if(obj.type == 'add'){
+                        this.list.some(item => {
+                            if(item.id == obj.id){
+                                item.num += 1;
+                                return true;
+                            }
+                        })
+                    } else if(obj.type == 'minue'){
+                        this.list.some(item => {
+                            if(item.id == obj.id){
+                                item.num -= 1;
+                                return true;
+                            }
+                        })
+                    } else if(obj.type == 'remove'){
+                        // 查找index索引值
+                        var index = this.list.findIndex(item => {
+                            return item.id == obj.id;
+                        })
+                        // 移除索引为index的1个元素
+                        this.list.splice(index,1);
+                    } else if(obj.type == 'getnum'){
+                        this.list.some(item => {
+                            if(item.id == obj.id){
+                                item.num = obj.num;
+                                return true;
+                            }
+                        })
+                    }
+                }
+            },
+            components: {
+                titleInfo,
+                goodsInfo,
+                totalFooter
+            }
+        })
+    </script>
+</body>
+</html>

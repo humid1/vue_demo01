@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .current{
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <fruit-list :list="list">
+            <!-- slotProps 父组件获取子组件插槽传递过来的对象 -->
+            <template slot-scope="slotProps">
+                <strong v-if="slotProps.info.id == 2" class="current">{{ slotProps.info.name }}</strong>
+                <span v-else>{{ slotProps.info.name }}</span>
+            </template>
+        </fruit-list>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 作用域插槽
+        Vue.component('fruit-list',{
+            props: ['list'],
+            template: `
+                <div>
+                    <li v-for="item in list" :key="item.id">
+                        <slot :info="item">{{ item.name }}</slot>
+                    </li>
+                </div>
+            `
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list: [{
+                    id: 1,
+                    name: 'apple'
+                },{
+                    id: 2,
+                    name: 'banana'
+                },{
+                    id: 3,
+                    name: 'orange'
+                }]
+            },
+        })
+    </script>
+</body>
+</html>
