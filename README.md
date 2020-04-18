@@ -18,3 +18,5 @@
 
 # 04_promise 前后端交互
 1. Promise用法
+2. fetch用法
+3. axios用法

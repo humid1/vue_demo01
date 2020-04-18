@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        // ----------------- get请求传递参数 -------------------------
+         // get使用url传递参数的方式
+        fetch('http://127.0.0.1:3000/fdata?id=123',{
+                method: 'get' // 默认为get提交可以不写
+            })
+            .then(data => {
+                // text()方法属于fetch API的一部分，它返回一个Promise实例对象，用于获取后台返回的数据
+                return data.text();
+            }).then(data => {
+                // 注意：此处得到的才是最终的数据
+                console.log(data);
+            })
+
+        // 使用Restful形式的url传递参数
+        fetch('http://127.0.0.1:3000/fdata/666',{
+                method: 'get' // 默认为get提交可以不写
+            })
+            .then(data => {
+                // text()方法属于fetch API的一部分，它返回一个Promise实例对象，用于获取后台返回的数据
+                return data.text();
+            }).then(data => {
+                // 注意：此处得到的才是最终的数据
+                console.log(data);
+            })
+
+        // ----------------- delete请求传递参数 -----------------------------
+        // delete形式的url传递参数
+        fetch('http://127.0.0.1:3000/fdata/777',{
+                method: 'delete' // 删除
+            })
+            .then(data => {
+                // text()方法属于fetch API的一部分，它返回一个Promise实例对象，用于获取后台返回的数据
+                return data.text();
+            }).then(data => {
+                // 注意：此处得到的才是最终的数据
+                console.log(data);
+            })
+
+        // ------------------post请求传递参数---------------------
+
+        // fetch('http://127.0.0.1:3000/fdata',{
+        //         method: 'post',
+        //         body: 'uname=lisi&pwd=123',
+        //         headers: {
+        //             'Content-Type': 'application/x-www-form-urlencoded'
+        //         }
+        //     }).then(data => {
+        //         // text()方法属于fetch API的一部分，它返回一个Promise实例对象，用于获取后台返回的数据
+        //         return data.text();
+        //     }).then(data => {
+        //         // 注意：此处得到的才是最终的数据
+        //         console.log(data);
+        //     })
+
+        fetch('http://127.0.0.1:3000/fdata',{
+                method: 'post',
+                body: JSON.stringify({
+                    uname: '张三',
+                    pwd: '123'
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(data => {
+                // text()方法属于fetch API的一部分，它返回一个Promise实例对象，用于获取后台返回的数据
+                return data.text();
+            }).then(data => {
+                // 注意：此处得到的才是最终的数据
+                console.log(data);
+            })
+
+        // ----------------------put请求传递参数----------------------
+        fetch('http://127.0.0.1:3000/fdata/123',{
+                method: 'put',
+                body: JSON.stringify({
+                    uname: '传递修改的数据',
+                    pwd: '456'
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(data => {
+                // text()方法属于fetch API的一部分，它返回一个Promise实例对象，用于获取后台返回的数据
+                return data.text();
+            }).then(data => {
+                // 注意：此处得到的才是最终的数据
+                console.log(data);
+            })
+    </script>
+</body>
+</html>

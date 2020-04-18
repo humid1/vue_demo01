@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script src="./js/axios/js/axios.js"></script>
+    <script>
+        // axios拦截器
+        // 请求拦截器
+        axios.interceptors.request.use(function(config) {
+            // 获取请求的地址
+            console.log(config.url);
+            // 配置传递的mytoken
+            config.headers.mytoken = 'helloffsfjksdfd';
+            return config;
+        },function(err) {
+            console.log(err);
+        })
+        // 响应拦截器
+        axios.interceptors.response.use(function(res) {
+            var data = res.data;
+            return data;
+        },function(err) {
+            console.log(err);
+        })
+
+        axios.get('http://127.0.0.1:3000/json').then(ret => {
+            // 这里获取到的数据就是上面响应拦截器，拦截到的后台信息
+            console.log(ret);
+        })
+
+        
+    </script>
+</body>
+</html>

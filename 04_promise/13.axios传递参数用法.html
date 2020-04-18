@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script src="./js/axios/js/axios.js"></script>
+    <script>
+        // -------------get形式传递参数--------------------
+        // axios.get('http://127.0.0.1:3000/axios?id=11').then(ret => {
+        //     // data 用与获取后台的数据
+        //     console.log(ret.data);
+        // })
+        axios.get('http://127.0.0.1:3000/axios',{
+            params: {id: 12}
+        }).then(ret => {
+            // data 用与获取后台的数据
+            console.log(ret.data);
+        })
+        axios.get('http://127.0.0.1:3000/axios/13').then(ret => {
+            // data 用与获取后台的数据
+            console.log(ret.data);
+        })
+        // ---------------- delete形式传递参数 (与get相似)----------------
+        axios.delete('http://127.0.0.1:3000/axios/14').then(ret => {
+            // data 用与获取后台的数据
+            console.log(ret.data);
+        })
+        
+    </script>
+</body>
+</html>
