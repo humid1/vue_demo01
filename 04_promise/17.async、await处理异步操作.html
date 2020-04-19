@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script src="./js/axios/js/axios.js"></script>
+    <script>
+
+        // 默认地址
+        axios.defaults.baseURL = "http://127.0.0.1:3000/";
+
+        // axios.get('json').then(ret => {
+        //     // 获取到 data数据中的uname属性的值
+        //     console.log(ret.data);
+        // })
+
+        // async function queryData(){
+        //     const ret = await axios.get('json');
+        //     return ret.data;
+        // }
+
+        async function queryData(){
+            var ret = await new Promise((resolve, reject) => {
+                setTimeout(()=>{
+                    resolve('模拟发送的数据！')
+                },1000)
+            })
+            return ret;
+        }
+
+        queryData().then(ret => {
+            console.log(ret);
+        })
+
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p15{
+            padding: 15px;
+        }
+        table{
+            width: 100%;
+            border: 1px solid #cccccc;
+        }
+        table thead {
+            background-color: burlywood;
+        }
+        th,td{
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #cccccc;
+        }
+        .total{
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .form{
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="form">
+            <label for="idName">编号：</label>
+            <input type="number" v-model="idName" id="idName" :disabled="true" v-focus>
+            <label for="name">名称: </label>
+            <input type="text" id="name" v-model="name">
+            <input type="button" value="提交" @click="submitInfo" :disabled="sflag">
+        </div>
+        <div class="total">数据总数：{{ total }}</div>
+        <table>
+            <thead>
+                <th>编号</th>
+                <th>名称</th>
+                <th>时间</th>
+                <th>操作</th>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in list" :key="item.id">
+                    <td v-text="item.id"></td>
+                    <td v-text="item.name"></td>
+                    <td>{{ item.createtime }}</td>
+                    <td>
+                        <a href="#" @click.prevent="edit(item.id)">修改</a> | 
+                        <a href="#" @click.prevent="del(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="./js/vue/vue.js"></script>
+    <script src="./js/axios/js/axios.js"></script>
+    <script>
+        // 访问接口前缀
+        axios.defaults.baseURL = 'http://127.0.0.1:8085/';
+        // 响应拦截器
+        axios.interceptors.response.use(ret => {
+            // 直接返回后台数据
+            return ret.data;
+        }, err => {
+            console.log(err);
+        })
+
+
+        // 自定义指令操作
+        Vue.directive('focus', {
+            inserted(el){
+                // el表示指令所绑定的元素（获取元素焦点）
+                el.focus();
+            }
+        })
+
+        // 带参过滤器 (格式化时间)
+        Vue.filter('format',function(date, fmt){
+            
+            // date = new Date(parseInt(date) * 1000);
+
+            function padLeftZero(str) {
+                return ('00' + str).substr(str.length);
+            }
+            if (/(y+)/.test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+            }
+            let o = {
+                'M+': date.getMonth() + 1,
+                'd+': date.getDate(),
+                'h+': date.getHours(),
+                'm+': date.getMinutes(),
+                's+': date.getSeconds()
+            };
+            for (let k in o) {
+                if (new RegExp(`(${k})`).test(fmt)) {
+                let str = o[k] + '';
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+                }
+            }
+            return fmt;
+        });
+    
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                idName: '',
+                name: '',
+                sflag: false,
+                list: [{
+                    id: 1,
+                    name: 'javascript',
+                    createtime: new Date()
+                },{
+                    id: 2,
+                    name: 'java',
+                    createtime: new Date()
+                },{
+                    id: 3,
+                    name: 'vue',
+                    createtime: new Date()
+                }],
+            },
+            methods: {
+                async submitInfo(){
+                    var ret = '';
+                    if(this.idName == null || this.idName == ""){
+                        // 增加
+                        ret = await axios.post('books',{name: this.name});
+                    } else {
+                        // 修改
+                        ret = await axios.put('books/' + this.idName, {name: this.name});
+                    }
+
+                    if(ret.status == '200'){
+                        this.queryData(); // 重新加载数据
+                    }
+                    // 清空表单信息
+                    this.idName = '';
+                    this.name = '';
+                },
+                async del(id){
+                    // 传递值为索引
+                    var ret = await axios.delete('books/' + id);
+                    if(ret.status == '200'){
+                        this.queryData(); // 重新加载数据
+                    }
+                },
+                async edit(id){
+                    var obj = await axios.get('books/'+id)
+                    // 值填充到输入框
+                    this.idName = obj.id;
+                    this.name = obj.name;
+                },
+                async queryData(){
+                    // 使用 async/await 调用后台接口获取数据
+                    // var ret = await axios.get('books');
+                    // this.list = ret.data;
+
+                    // 使用了axios响应拦截器
+                    this.list = await axios.get('books');
+                }
+            },
+            computed: {
+                total(){
+                    // 计算图书总数
+                    return this.list.length;
+                }
+            },
+            watch: {
+                name(val){
+                    // 验证图书名称是否存在
+                    // 这种查后台的方式耗性能
+                    // var ret = await axios.get('books/book/' + val);
+
+                    var flag = this.list.some((item) => {
+                        return item.name == val;
+                    });
+
+                    if(flag){
+                        // 名称存在
+                        this.sflag = true;
+                    } else {
+                        // 名称不存在
+                        this.sflag = false;
+                    }
+                }
+            },
+            mounted() {
+                // 该生命周期的钩子函数被触发时，模板已经可以使用
+                // 一般此时用于获取后台数据，然后把数据填充到模板中
+                
+                // 模拟后台返回的数据
+                // axios.get('books').then(ret => {
+                //     this.list = ret.data;
+                // })
+
+                // 调用方法
+                this.queryData();
+                
+            },
+        });
+
+    </script>
+</body>
+</html>

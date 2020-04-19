@@ -20,3 +20,5 @@
 1. Promise用法
 2. fetch用法
 3. axios用法
+4. axios的 async/await处理异步操作
+5. 综合案例

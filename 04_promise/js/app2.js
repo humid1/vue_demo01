@@ -80,6 +80,12 @@ app.put('/axios/:id',(req, res) => {
     res.send('axios 使用 put请求传递参数：' + req.params.id + '--------' + req.body.uname + '---' + req.body.pwd);
 })
 
+var data = require('./data.json');
+// ----------------模拟图书后台接口-----------------
+app.get('/books', (req, res) => {
+    res.json(data)
+})
+
 // 在该目录下，使用 npm start 启动
 app.listen(3000, () => {
     console.log("success");
