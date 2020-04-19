@@ -22,3 +22,6 @@
 3. axios用法
 4. axios的 async/await处理异步操作
 5. 综合案例
+
+# 05_vue_router Vue路由相关
+1. vue-router的基本使用

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 2.添加路由链接 -->
+        <router-link to="/login">登陆</router-link>
+        <router-link to="/register">注册</router-link>
+        <!-- 3.添加路由占位符  -->
+        <router-view></router-view>
+
+    </div>
+
+    <template id="login">
+        <div>
+            <h1>登录</h1>
+        </div>
+    </template>
+    <template id="register">
+        <div>
+            <h1>注册</h1>
+        </div>
+    </template>
+
+    <!-- 1. 引入相关库文件 -->
+    <script src="./js/vue/vue.js"></script>
+    <script src="./js/vue/vue-router.js"></script>
+
+    <script>
+        // 4. 定义路由组件
+        var login = {
+            template: '#login'
+        }
+        
+        var register = {
+            template: '#register'
+        }
+
+        // 5.创建路由实例对象
+        const router = new VueRouter({
+            // 所有的路由规则
+            routes: [
+                {path: '/login', component: login},
+                {path: '/register', component: register},
+            ]
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                
+            },
+            components: {
+                login,
+                register
+            },
+            router: router
+        })
+
+    </script>
+</body>
+</html>
