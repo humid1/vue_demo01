@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 2.添加路由链接 -->
+        <router-link to="/login/1">登陆1</router-link>
+        <router-link to="/login/2">登陆2</router-link>
+        <router-link to="/login/3">登陆3</router-link>
+        <router-link to="/register">注册</router-link>
+        <!-- 3.添加路由占位符  -->
+        <router-view></router-view>
+
+    </div>
+
+    <template id="login">
+        <div>
+            <!-- 使用路由参数 -->
+            <h1>登录用户id：{{ id }}</h1> 
+            <h1>登录用户名称：{{ uname }}</h1>
+            <h1>登录用户年龄：{{ age }}</h1>
+        </div>
+    </template>
+    <template id="register">
+        <div>
+            <h1>注册</h1>
+        </div>
+    </template>
+
+    <!-- 1. 引入相关库文件 -->
+    <script src="./js/vue/vue.js"></script>
+    <script src="./js/vue/vue-router.js"></script>
+
+    <script>
+        // 4. 定义路由组件
+        var login = {
+            
+            props: ['id','uname','age'],
+            template: '#login'
+        }
+        
+        var register = {
+            template: '#register'
+        }
+
+        // 5.创建路由实例对象
+        const router = new VueRouter({
+            // 所有的路由规则
+            routes: [
+                // 如果 props 是一个函数，这个函数接收 route 对象为自己的形参
+                {path: '/login/:id', component: login, props: route => ({uname: '李四', age: 12 ,id: route.params.id })},
+                {path: '/register', component: register},
+            ]
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                
+            },
+            components: {
+                login,
+                register
+            },
+            router: router
+        })
+
+    </script>
+</body>
+</html>
