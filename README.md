@@ -37,3 +37,5 @@
 1. npm i          下载所需的包
 2. npm run dev    运行项目
 3. npm run build  打包构建
+
+# 08_vue-cli01 vue-cli脚手架相关
