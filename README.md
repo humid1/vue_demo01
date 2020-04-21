@@ -32,3 +32,8 @@
 # 06_vue_engine Vue工程化开发
 1. babel入门案例
 2. ES6 模块化的基本语法
+
+# 07_webpack_study webpack的学习
+1. npm i          下载所需的包
+2. npm run dev    运行项目
+3. npm run build  打包构建
